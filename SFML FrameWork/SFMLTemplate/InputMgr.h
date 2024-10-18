@@ -13,7 +13,6 @@ private:
 	static std::list<sf::Mouse::Button> downMouseList;
 	static std::list<sf::Mouse::Button> upMouseList;
 	static std::list<sf::Mouse::Button> heldMouseList;
-	static sf::Vector2i posMouse;
 
 public:
 	static void Clear();
@@ -25,5 +24,5 @@ public:
 	static bool GetMouseDown(sf::Mouse::Button button);
 	static bool GetMouse(sf::Mouse::Button button);
 	static bool GetMouseUp(sf::Mouse::Button button);
-	static sf::Vector2i GetMousePoint();
+	static sf::Vector2i GetMousePoint(const sf::RenderWindow& window);
 };

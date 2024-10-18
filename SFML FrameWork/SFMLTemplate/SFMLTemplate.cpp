@@ -74,7 +74,7 @@ int main()
 
         if (InputMgr::GetMouseDown(sf::Mouse::Middle))
         {
-            std::cout << "(" << InputMgr::GetMousePoint().x << ", " << InputMgr::GetMousePoint().y << ")" << std::endl;
+            std::cout << "(" << InputMgr::GetMousePoint(window).x << ", " << InputMgr::GetMousePoint(window).y << ")" << std::endl;
         }
 
         window.clear();

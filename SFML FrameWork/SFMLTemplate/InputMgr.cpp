@@ -1,4 +1,5 @@
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include "InputMgr.h"
 
 std::list<sf::Keyboard::Key> InputMgr::downKeyList;
@@ -8,7 +9,6 @@ std::list<sf::Keyboard::Key> InputMgr::heldKeyList;
 std::list<sf::Mouse::Button> InputMgr::downMouseList;
 std::list<sf::Mouse::Button> InputMgr::upMouseList;
 std::list<sf::Mouse::Button> InputMgr::heldMouseList;
-sf::Vector2i InputMgr::posMouse;
 
 void InputMgr::Clear()
 {
@@ -39,7 +39,6 @@ void InputMgr::UpdateEvent(sf::Event ev)
 			heldMouseList.push_back(ev.mouseButton.button);
 			downMouseList.push_back(ev.mouseButton.button);
 		}
-		posMouse = sf::Vector2i(ev.mouseButton.x, ev.mouseButton.y);
 		break;
 	case sf::Event::MouseButtonReleased:
 		upMouseList.push_back(ev.mouseButton.button);
@@ -78,8 +77,8 @@ bool InputMgr::GetMouseUp(sf::Mouse::Button button)
 	return std::find(upMouseList.begin(), upMouseList.end(), button) != upMouseList.end();
 }
 
-sf::Vector2i InputMgr::GetMousePoint()
+sf::Vector2i InputMgr::GetMousePoint(const sf::RenderWindow& window)
 {
-	return posMouse;
+	return sf::Mouse::getPosition(window);
 }
 
