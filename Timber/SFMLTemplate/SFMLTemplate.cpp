@@ -1,4 +1,4 @@
-﻿#include<iostream>
+﻿#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <time.h>
@@ -120,7 +120,7 @@ int main()
     spritePlayer.setScale(playerScaleArray[(int)sidePlayer]);
     spritePlayer.setPosition(playerPosArray[(int)sidePlayer]);
 
-    sf::Vector2f posBranch(centerPos.x, 700.f);
+    sf::Vector2f posBranch(centerPos.x, 800.f);
     for (int i = 0; i < numOfBranches; i++)
     {
         if (i != 0)
@@ -221,8 +221,8 @@ int main()
                             else
                             {
                                 spriteCloud[i].setPosition(sf::Vector2f(winSize.x + 50.f, (float)(rand() % 500)));
-                                spriteCloud[i].setScale(sf::Vector2f(-randScale, randScale));
                             }
+                                spriteCloud[i].setScale(sf::Vector2f(-randScale, randScale));
                         }
 
                         spriteBee.setPosition(sf::Vector2f(0, vm.height * 0.5f + 200));
@@ -243,7 +243,7 @@ int main()
                         spritePlayer.setScale(playerScaleArray[(int)sidePlayer]);
                         spritePlayer.setPosition(playerPosArray[(int)sidePlayer]);
 
-                        sf::Vector2f posBranch(centerPos.x, 700.f);
+                        sf::Vector2f posBranch(centerPos.x, 800.f);
                         for (int i = 0; i < numOfBranches; i++)
                         {
                             if (i != 0)
@@ -421,6 +421,7 @@ int main()
             window.draw(spriteCloud[i]);
         }
         window.draw(spriteTree);
+        window.draw(spritePlayer);
         for (int i = 0; i < numOfBranches; i++)
         {
             if (sideBranches[i] != Sides::None)
@@ -429,7 +430,6 @@ int main()
             }
         }
         window.draw(spriteBee);
-        window.draw(spritePlayer);
         window.draw(scoreText);
         window.draw(guideText);
         window.draw(timeBar);
