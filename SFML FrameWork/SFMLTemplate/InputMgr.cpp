@@ -1,6 +1,4 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "InputMgr.h"
+#include "stdafx.h"
 
 std::list<sf::Keyboard::Key> InputMgr::downKeyList;
 std::list<sf::Keyboard::Key> InputMgr::upKeyList;

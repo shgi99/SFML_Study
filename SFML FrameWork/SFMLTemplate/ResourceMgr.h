@@ -1,8 +1,4 @@
 #pragma once
-#include "Singleton.h"
-#include <unordered_map>
-#include <string>
- 
 template <typename T>
 class ResourceMgr : public Singleton<ResourceMgr<T>>
 {
@@ -77,3 +73,5 @@ public:
 
 template<typename T>
 T ResourceMgr<T>::Empty;
+
+#define TEXTURE_MGR ResourceMgr<sf::Texture>::Instance()
