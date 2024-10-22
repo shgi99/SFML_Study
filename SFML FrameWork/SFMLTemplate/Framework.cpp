@@ -4,15 +4,12 @@
 void Framework::Init(int width, int height, const std::string& name)
 {
 	window.create(sf::VideoMode(width, height), name);
-
+    // 세이브 데이터 로드, 씬이랑 무관하게 처음부터 끝까지 사용할 리소스 로딩
+    SCENE_MGR.Init();
 }
 
 void Framework::Do()
 {
-    TEXTURE_MGR.Load("graphics/background.png");
-    SpriteGo go("graphics/background.png");
-    go.Init();
-    go.Reset();
 
     while (window.isOpen())
     {
@@ -32,7 +29,7 @@ void Framework::Do()
             InputMgr::UpdateEvent(event);
         }
         // 업데이트
-        go.Update(deltaTime);
+        SCENE_MGR.Update(deltaTime);
         if (InputMgr::GetKey(sf::Keyboard::Num1))
         {
             std::cout << "Num 1 Pressed" << std::endl;
@@ -86,7 +83,7 @@ void Framework::Do()
         }
         //드로우
         window.clear();
-        go.Draw(window);
+        SCENE_MGR.Draw(window);
         //window.draw(shape);
         //window.draw(player);
         window.display();
@@ -95,4 +92,5 @@ void Framework::Do()
 
 void Framework::Release()
 {
-}
+    SCENE_MGR.Release();
+}   

@@ -1,15 +1,15 @@
 #include "stdafx.h"
 #include "SpriteGo.h"
 
-SpriteGo::SpriteGo(const std::string& texId) :textureId(texId)
+SpriteGo::SpriteGo(const std::string& texId, const std::string& name) 
+	:GameObject(name), textureId(texId)
 {
 }
 
 void SpriteGo::Reset()
 {
-	auto& texResMgr = ResourceMgr<sf::Texture>::Instance();
-
-	sprite.setTexture(texResMgr.Get(textureId));
+	sprite.setTexture(TEXTURE_MGR.Get(textureId));
+	SetOrigin(originPreset);
 }
 
 void SpriteGo::SetPosition(const sf::Vector2f& pos)
@@ -22,4 +22,17 @@ void SpriteGo::Draw(sf::RenderWindow& window)
 {
 	GameObject::Draw(window);
 	window.draw(sprite);
+}
+
+void SpriteGo::SetOrigin(Origins preset)
+{
+	originPreset = preset;
+	origin = Utils::SetOrigin(sprite, originPreset);
+}
+
+void SpriteGo::SetOrigin(const sf::Vector2f& newOrigin)
+{
+	originPreset = Origins::Custom;
+	origin = newOrigin;
+	sprite.setOrigin(origin);
 }
