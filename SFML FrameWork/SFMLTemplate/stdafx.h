@@ -1,9 +1,11 @@
 #pragma once
-#include <iostream>
+
 // STL 헤더
+#include <random>
 #include <list>
 #include <unordered_map>
 #include <algorithm>
+#include <iostream>
 
 // SFML 헤더
 #include <SFML/Graphics.hpp>

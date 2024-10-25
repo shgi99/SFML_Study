@@ -4,6 +4,7 @@
 void Framework::Init(int width, int height, const std::string& name)
 {
 	window.create(sf::VideoMode(width, height), name);
+    Utils::Init();
     // 세이브 데이터 로드, 씬이랑 무관하게 처음부터 끝까지 사용할 리소스 로딩
     SCENE_MGR.Init();
 }

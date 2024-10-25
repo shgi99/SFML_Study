@@ -17,10 +17,20 @@ public:
 	virtual void Update(float dt);
 	virtual void Draw(sf::RenderWindow& window);
 
-	virtual GameObject* AddGo(GameObject* obj);
 	virtual void RemoveGo(GameObject* obj);
 
 	virtual GameObject* FindGo(const std::string& name);
 	virtual int FindGoAll(const std::string& name, std::list <GameObject*>& list);
+	template<typename T>
+	T* AddGo(T* obj)
+	{
+		if (std::find(gameObjects.begin(), gameObjects.end(), obj) == gameObjects.end())
+		{
+			gameObjects.push_back(obj);
+		}
+		return obj;
+	}
+
 };
+
 

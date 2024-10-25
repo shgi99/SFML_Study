@@ -3,7 +3,7 @@
 
 
 
-GameObject::GameObject(const std::string& name) : name(name)
+GameObject::GameObject(const std::string& name) : name(name), originPreset(Origins::TL), origin(0.f, 0.f)
 {
 }
 

@@ -15,5 +15,6 @@ public:
 
 	virtual void SetOrigin(Origins preset);
 	virtual void SetOrigin(const sf::Vector2f& newOrigin);
+	virtual void SetScale(const sf::Vector2f& newScale);
 };
 

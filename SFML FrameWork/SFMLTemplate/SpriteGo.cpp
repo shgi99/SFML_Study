@@ -36,3 +36,9 @@ void SpriteGo::SetOrigin(const sf::Vector2f& newOrigin)
 	origin = newOrigin;
 	sprite.setOrigin(origin);
 }
+
+void SpriteGo::SetScale(const sf::Vector2f& newScale)
+{
+	GameObject::SetScale(newScale);
+	sprite.setScale(newScale);
+}

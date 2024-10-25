@@ -8,6 +8,7 @@ protected:
 	sf::Vector2f position;
 	Origins originPreset;
 	sf::Vector2f origin;
+	sf::Vector2f scale;
 public:
 	GameObject(const std::string& name = "");
 	virtual ~GameObject() = default;
@@ -29,6 +30,8 @@ public:
 		origin = newOrigin;
 		originPreset = Origins::Custom;
 	}
+	sf::Vector2f GetScale() const { return scale; }
+	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
 	virtual void SetString(const std::string& str = "");
 
 	virtual void Init(); // 생성 시 초기화

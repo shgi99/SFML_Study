@@ -18,8 +18,8 @@ void Scene::Release()
 {
 	for (auto obj : gameObjects)
 	{
-		delete obj;
 		obj->Release();
+		delete obj;
 	}
 }
 
@@ -60,15 +60,6 @@ void Scene::Draw(sf::RenderWindow& window)
 
 		obj->Draw(window);
 	}
-}
-
-GameObject* Scene::AddGo(GameObject* obj)
-{
-	if (std::find(gameObjects.begin(), gameObjects.end(), obj) == gameObjects.end())
-	{
-		gameObjects.push_back(obj);
-	}
-	return obj;
 }
 
 void Scene::RemoveGo(GameObject* obj)
