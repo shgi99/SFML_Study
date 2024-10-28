@@ -33,6 +33,8 @@ public:
 	sf::Vector2f GetScale() const { return scale; }
 	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
 	virtual void SetString(const std::string& str = "");
+	virtual void FlipX(bool tf);
+	virtual void FlipY(bool tf);
 
 	virtual void Init(); // 생성 시 초기화
 	virtual void Release(); // 동적 할당시 사용

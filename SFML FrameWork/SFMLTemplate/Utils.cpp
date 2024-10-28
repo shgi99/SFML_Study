@@ -44,6 +44,11 @@ sf::Vector2f Utils::RandomInUnitCircle()
 
 sf::Vector2f Utils::SetOrigin(sf::Sprite& obj, Origins preset)
 {
+    if (preset == Origins::Custom)
+    {
+        return obj.getOrigin();
+    }
+
     sf::FloatRect rect = obj.getLocalBounds();
     sf::Vector2f newOrigin(rect.width, rect.height);
     newOrigin.x *= ((int)preset % 3) * 0.5f;

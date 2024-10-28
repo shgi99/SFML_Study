@@ -17,6 +17,32 @@ void GameObject::SetString(const std::string& str)
 {
 }
 
+void GameObject::FlipX(bool tf)
+{
+	if (tf == true)
+	{
+		SetScale({ -GetScale().x, GetScale().y});
+	}
+	else
+	{
+		SetScale({ GetScale().x, GetScale().y });
+	}
+	return;
+}
+
+void GameObject::FlipY(bool tf)
+{
+	if (tf == true)
+	{
+		SetScale({ GetScale().x, -GetScale().y });
+	}
+	else
+	{
+		SetScale({ GetScale().x, GetScale().y });
+	}
+	return;
+}
+
 void GameObject::Init()
 {
 }
