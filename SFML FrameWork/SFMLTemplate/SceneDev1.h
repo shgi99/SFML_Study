@@ -1,10 +1,13 @@
 #pragma once
 #include "Scene.h"
-#include "TreeGo.h"
+
+class TreeGo;
+class PlayerGo;
 class SceneDev1 : public Scene
 {
 protected:
 	TreeGo* tree;
+	PlayerGo* player;
 public:
 	SceneDev1();
 	~SceneDev1() = default;

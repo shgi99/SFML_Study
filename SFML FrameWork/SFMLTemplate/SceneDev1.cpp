@@ -5,6 +5,7 @@
 #include "CloudGo.h"
 #include "BeeGo.h"
 #include "TreeGo.h"
+#include "PlayerGo.h"
 SceneDev1::SceneDev1() : Scene(SceneIds::Dev1)
 {
 }
@@ -16,12 +17,6 @@ void SceneDev1::Init()
 	GameObject* obj = AddGo(new SpriteGo("graphics/background.png"));
 	obj->SetOrigin(Origins::MC);
 	obj->SetPosition({ 1920 / 2, 1080 / 2 });
-
-	TEXTURE_MGR.Load("graphics/tree.png");
-	TEXTURE_MGR.Load("graphics/branch.png");
-
-	tree = AddGo(new TreeGo("Tree"));
-	tree->SetPosition({ 1920 / 2, 1080.f - 300.f });
 
 	GameObject* textObj = AddGo(new TextGo("fonts/KOMIKAP_.ttf"));
 	textObj->SetOrigin(Origins::TL);
@@ -40,6 +35,17 @@ void SceneDev1::Init()
 		bee->SetPosition({ 0.f, Utils::RandomRange(540.f, 800.f) });
 	}
 
+	TEXTURE_MGR.Load("graphics/tree.png");
+	TEXTURE_MGR.Load("graphics/branch.png");
+	TEXTURE_MGR.Load("graphics/player.png");
+	TEXTURE_MGR.Load("graphics/axe.png");
+	TEXTURE_MGR.Load("graphics/rip.png");
+
+	tree = AddGo(new TreeGo("Tree"));
+	tree->SetPosition({ 1920 / 2, 1080.f - 300.f });
+
+	player = AddGo(new PlayerGo("Player"));
+	player->SetPosition({ 1920 / 2, 1080.f - 300.f });
 	Scene::Init();
 }
 
@@ -52,6 +58,9 @@ void SceneDev1::Enter()
 	TEXTURE_MGR.Load("graphics/tree.png");
 	TEXTURE_MGR.Load("graphics/branch.png");
 	TEXTURE_MGR.Load("graphics/log.png");
+	TEXTURE_MGR.Load("graphics/player.png");
+	TEXTURE_MGR.Load("graphics/axe.png");
+	TEXTURE_MGR.Load("graphics/rip.png");
 	FONT_MGR.Load("fonts/KOMIKAP_.ttf");
 
 	Scene::Enter();
@@ -66,6 +75,9 @@ void SceneDev1::Exit()
 	TEXTURE_MGR.Unload("graphics/tree.png");
 	TEXTURE_MGR.Unload("graphics/branch.png");
 	TEXTURE_MGR.Unload("graphics/log.png");
+	TEXTURE_MGR.Unload("graphics/player.png");
+	TEXTURE_MGR.Unload("graphics/axe.png");
+	TEXTURE_MGR.Unload("graphics/rip.png");
 	FONT_MGR.Unload("fonts/KOMIKAP_.ttf");
 
 	Scene::Exit();

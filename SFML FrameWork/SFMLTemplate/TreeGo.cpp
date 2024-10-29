@@ -131,10 +131,8 @@ void TreeGo::Update(float dt)
     while (it != logEffects.end())
     {
         auto logEffect = *it;
-        std::cout << "Checking EffectLog active status..." << std::endl;
         if (!logEffect->IsActive())
         {
-            std::cout << "Returning inactive object to pool." << std::endl;
             effectLogPool.Return(logEffect); // 비활성화된 객체 반환
             SCENE_MGR.GetCurrentScene()->RemoveGo(logEffect); // 씬에서 제거
             it = logEffects.erase(it); // used 리스트에서 제거

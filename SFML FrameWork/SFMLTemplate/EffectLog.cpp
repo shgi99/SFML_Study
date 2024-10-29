@@ -16,7 +16,6 @@ void EffectLog::Update(float dt)
 	timer += dt;
 	if (timer > duration)
 	{
-		std::cout << "EffectLog object is now inactive." << std::endl;
 		SetActive(false);
 		return;
 	}
