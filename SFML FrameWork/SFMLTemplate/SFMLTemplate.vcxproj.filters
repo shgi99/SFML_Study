@@ -69,6 +69,12 @@
     <ClCompile Include="PlayerGo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="UIScore.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UITimeBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputMgr.h">
@@ -132,6 +138,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="PlayerGo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UIScore.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UITimeBar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -90,28 +90,15 @@ void TreeGo::Reset()
     {
         branch->Reset();
     }
-
     UpdateBranchPos();
+    auto lastBranch = branches.front();
+    lastBranch->SetSide(Sides::None);
 }
 
 void TreeGo::Update(float dt)
 {
     if (InputMgr::GetKeyDown(sf::Keyboard::Left))
     {
-        Chop(Sides::Left);
-        EffectLog* effect = effectLogPool.Take();
-        if (effect != nullptr)
-        {
-            SCENE_MGR.GetCurrentScene()->AddGo(effect);
-            effect->SetOrigin(Origins::BC);
-            effect->SetPosition(position);
-            effect->Fire({ -1000.f, -1000.f });
-            logEffects.push_back(effect);
-        }
-    }
-    if (InputMgr::GetKeyDown(sf::Keyboard::Right))
-    {
-        Chop(Sides::Right);
         EffectLog* effect = effectLogPool.Take();
         if (effect != nullptr)
         {
@@ -119,6 +106,18 @@ void TreeGo::Update(float dt)
             effect->SetOrigin(Origins::BC);
             effect->SetPosition(position);
             effect->Fire({ 1000.f, -1000.f });
+            logEffects.push_back(effect);
+        }
+    }
+    if (InputMgr::GetKeyDown(sf::Keyboard::Right))
+    {
+        EffectLog* effect = effectLogPool.Take();
+        if (effect != nullptr)
+        {
+            SCENE_MGR.GetCurrentScene()->AddGo(effect);
+            effect->SetOrigin(Origins::BC);
+            effect->SetPosition(position);
+            effect->Fire({ -1000.f, -1000.f });
             logEffects.push_back(effect);  // logEffects¿¡ Ãß°¡
         }
     }

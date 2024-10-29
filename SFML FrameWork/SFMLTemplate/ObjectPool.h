@@ -36,7 +36,11 @@ public:
     {
         if (unused.empty())
         {
-            return nullptr;
+            auto obj = new T();
+            obj->Init();
+            obj->Reset();
+            used.push_back(obj);
+            return obj;
         }
 
         auto obj = unused.front();

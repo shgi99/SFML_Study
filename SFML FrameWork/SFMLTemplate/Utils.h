@@ -14,7 +14,11 @@ public:
 
 	static sf::Vector2f RandomOnUnitCircle();
 	static sf::Vector2f RandomInUnitCircle();
+
+	static float Clamp(float value, float min, float max);
 	// Origin
+	static sf::Vector2f SetOrigin(sf::Transformable &obj, Origins preset, const sf::FloatRect rect);
+	static sf::Vector2f SetOrigin(sf::Shape& obj, Origins preset);
 	static sf::Vector2f SetOrigin(sf::Sprite& obj, Origins preset);
 	static sf::Vector2f SetOrigin(sf::Text& obj, Origins preset);
 };

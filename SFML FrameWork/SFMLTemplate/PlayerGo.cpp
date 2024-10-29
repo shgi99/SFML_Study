@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PlayerGo.h"
-
+#include "SceneDev1.h"
 PlayerGo::PlayerGo(const std::string& name)
 	:GameObject(name)
 {
@@ -10,10 +10,7 @@ void PlayerGo::SetSide(Sides s)
 {
 	playerSide = s;
 	sf::Vector2f newPos = position + localPosPlayer[(int)s];
-	spritePlayer.setPosition(newPos);
-	spriteAxe.setPosition(position + localPosAxe);
-	spriteRip.setPosition(position + localPosRip);
-
+	
 	if (playerSide == Sides::Left)
 	{
 		SetScale({ -1.f, 1.f });
@@ -22,6 +19,10 @@ void PlayerGo::SetSide(Sides s)
 	{
 		SetScale({ 1.f, 1.f });
 	}
+
+	spritePlayer.setPosition(newPos);
+	spriteAxe.setPosition(newPos + localPosAxe);
+	spriteRip.setPosition(newPos + localPosRip);
 }
 
 void PlayerGo::OnDie()
@@ -34,6 +35,7 @@ void PlayerGo::SetPosition(const sf::Vector2f& pos)
 {
 	position = pos;
 	SetSide(playerSide);
+
 }
 
 void PlayerGo::SetOrigin(Origins preset)
@@ -63,7 +65,7 @@ void PlayerGo::SetScale(const sf::Vector2f& scale)
 
 	sf::Vector2f ripScale = this->scale;
 	ripScale.x = abs(axeScale.x);
-	spriteAxe.setScale(ripScale);
+	spriteRip.setScale(ripScale);
 }
 
 void PlayerGo::Init()
@@ -86,6 +88,7 @@ void PlayerGo::Release()
 
 void PlayerGo::Reset()
 {
+	GameObject::Reset();
 	spritePlayer.setTexture(TEXTURE_MGR.Get(texIdPlayer));
 	spriteAxe.setTexture(TEXTURE_MGR.Get(texIdAxe));
 	spriteRip.setTexture(TEXTURE_MGR.Get(texIdRip));
@@ -98,19 +101,14 @@ void PlayerGo::Reset()
 
 void PlayerGo::Update(float dt)
 {
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
-	{
-		OnDie();
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
-	{
-		Reset();
-	}
+	if (!isAlive)
+		return;
+	
 	if (InputMgr::GetKeyDown(sf::Keyboard::Left))
 	{
 		isChopping = true;
 		SetSide(Sides::Left);
+		sceneGame->OnChop(Sides::Left);
 	}
 	if (InputMgr::GetKeyUp(sf::Keyboard::Left))
 	{
@@ -120,6 +118,7 @@ void PlayerGo::Update(float dt)
 	{
 		isChopping = true;
 		SetSide(Sides::Right);
+		sceneGame->OnChop(Sides::Right);
 	}
 	if (InputMgr::GetKeyUp(sf::Keyboard::Right))
 	{
@@ -145,4 +144,9 @@ void PlayerGo::Draw(sf::RenderWindow& window)
 	{
 		window.draw(spriteRip);
 	}
+}
+
+void PlayerGo::SetSceneGame(SceneDev1* scene)
+{
+	sceneGame = scene;
 }

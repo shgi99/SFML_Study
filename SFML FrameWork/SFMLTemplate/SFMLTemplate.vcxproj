@@ -163,6 +163,8 @@
     </ClCompile>
     <ClCompile Include="TextGo.cpp" />
     <ClCompile Include="TreeGo.cpp" />
+    <ClCompile Include="UIScore.cpp" />
+    <ClCompile Include="UITimeBar.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +188,8 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextGo.h" />
     <ClInclude Include="TreeGo.h" />
+    <ClInclude Include="UIScore.h" />
+    <ClInclude Include="UITimeBar.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

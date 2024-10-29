@@ -41,30 +41,46 @@ sf::Vector2f Utils::RandomInUnitCircle()
 {
     return RandomOnUnitCircle() * RandomValue();
 }
-
-sf::Vector2f Utils::SetOrigin(sf::Sprite& obj, Origins preset)
+float Utils::Clamp(float value, float min, float max)
+{
+    if (value < min)
+    {
+        return min;
+    }
+    if (value > max)
+    {
+        return max;
+    }
+    return value;
+}
+sf::Vector2f Utils::SetOrigin(sf::Transformable& obj, Origins preset, const sf::FloatRect rect)
 {
     if (preset == Origins::Custom)
     {
         return obj.getOrigin();
     }
-
-    sf::FloatRect rect = obj.getLocalBounds();
     sf::Vector2f newOrigin(rect.width, rect.height);
     newOrigin.x *= ((int)preset % 3) * 0.5f;
     newOrigin.y *= ((int)preset / 3) * 0.5f;
     obj.setOrigin(newOrigin);
-    
+
     return newOrigin;
+}
+
+sf::Vector2f Utils::SetOrigin(sf::Shape& obj, Origins preset)
+{
+
+    return SetOrigin(obj, preset, obj.getLocalBounds());
+}
+
+sf::Vector2f Utils::SetOrigin(sf::Sprite& obj, Origins preset)
+{
+
+    return SetOrigin(obj, preset, obj.getLocalBounds());
 }
 
 sf::Vector2f Utils::SetOrigin(sf::Text& obj, Origins preset)
 {
-    sf::FloatRect rect = obj.getLocalBounds();
-    sf::Vector2f newOrigin(rect.width, rect.height);
-    newOrigin.x *= ((int)preset % 3) * 0.5f;
-    newOrigin.y *= ((int)preset / 3) * 0.5f;
-    obj.setOrigin(newOrigin);
 
-    return newOrigin;
+    return SetOrigin(obj, preset, obj.getLocalBounds());
 }

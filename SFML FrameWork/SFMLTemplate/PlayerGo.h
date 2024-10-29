@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include "SceneDev1.h"
+class SceneDev1;
 class PlayerGo : public GameObject
 {
 protected:
@@ -17,10 +19,12 @@ protected:
 	sf::Vector2f localPosAxe = { 0.f, -70.f };
 	sf::Vector2f localPosRip = { 0.f, 0.f };
 
-	sf::Vector2f originAxe = { -90.f, 0.f };
+	sf::Vector2f originAxe = { -60.f, 0.f };
 
 	bool isAlive = true;
 	bool isChopping = false;
+
+	SceneDev1* sceneGame;
 public:
 	PlayerGo(const std::string& name = "");
 	virtual ~PlayerGo() = default;
@@ -39,5 +43,7 @@ public:
 	void Reset() override; //
 	void Update(float dt) override; // 활성, 비활성된 객체 업데이트 유무
 	void Draw(sf::RenderWindow& window) override;
+	void SetSceneGame(SceneDev1* scene);
 };
+
 
