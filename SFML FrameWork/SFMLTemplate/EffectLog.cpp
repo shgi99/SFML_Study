@@ -4,6 +4,9 @@
 EffectLog::EffectLog()
 	: SpriteGo("graphics/log.png")
 {
+	sortingLayer = SortingLayers::Foreground;
+	sortingOrder = 1;
+
 }
 
 EffectLog::EffectLog(const std::string& texId, const std::string& name)

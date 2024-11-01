@@ -4,6 +4,9 @@
 UIScore::UIScore(const std::string& fontId, const std::string& name)
 	:TextGo(fontId, name)
 {
+	sortingLayer = SortingLayers::UI;
+	sortingOrder = -1;
+
 }
 
 void UIScore::Reset()

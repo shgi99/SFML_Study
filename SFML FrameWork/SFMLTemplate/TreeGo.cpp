@@ -6,6 +6,8 @@
 TreeGo::TreeGo(const std::string& name)
     : GameObject(name)
 {
+    sortingLayer = SortingLayers::Foreground;
+    sortingOrder = -1;
 }
 
 TreeGo::~TreeGo()
@@ -19,7 +21,7 @@ Sides TreeGo::RandomSide() const
     if (rand > 1)
         return Sides::None;
 
-    return Sides(rand);
+    return Sides(rand); // 0이면 Left, 1이면 Right 반환
 }
 
 Sides TreeGo::Chop(Sides side)
@@ -44,6 +46,7 @@ void TreeGo::UpdateBranchPos()
         pos.y -= branchOffsetY;
 
         branch->SetPosition(pos);
+        std::cout << "Branch position updated. Side: " << (int)branch->GetSide() << " at y: " << pos.y << std::endl;
     }
 }
 
@@ -161,4 +164,13 @@ void TreeGo::SetPosition(const sf::Vector2f& pos)
     position = pos;
     tree.setPosition(pos);
     UpdateBranchPos();
+}
+
+void TreeGo::ClearEffectLog()
+{   
+    for (auto log : logEffects)
+    {
+        SCENE_MGR.GetCurrentScene()->RemoveGo(log);
+        effectLogPool.Return(log);
+    }
 }

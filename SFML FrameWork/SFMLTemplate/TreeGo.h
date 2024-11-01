@@ -34,5 +34,7 @@ public:
     void Draw(sf::RenderWindow& window) override;
     
     void SetPosition(const sf::Vector2f& pos) override;
+
+    void ClearEffectLog();
 };
 

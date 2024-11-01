@@ -5,10 +5,12 @@ class SceneDev1;
 class PlayerGo : public GameObject
 {
 protected:
+	sf::Sound sfxChop;
 	sf::Sprite spritePlayer;
 	sf::Sprite spriteAxe;
 	sf::Sprite spriteRip;
 
+	std::string sbIdChop = "sound/chop.wav";
 	std::string texIdPlayer = "graphics/player.png";
 	std::string texIdAxe = "graphics/axe.png";
 	std::string texIdRip = "graphics/rip.png";

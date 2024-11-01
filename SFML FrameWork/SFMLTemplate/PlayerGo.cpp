@@ -4,6 +4,9 @@
 PlayerGo::PlayerGo(const std::string& name)
 	:GameObject(name)
 {
+	sortingLayer = SortingLayers::Foreground;
+	sortingOrder = -1;
+ 
 }
 
 void PlayerGo::SetSide(Sides s)
@@ -27,7 +30,7 @@ void PlayerGo::SetSide(Sides s)
 
 void PlayerGo::OnDie()
 {
-	isAlive = !isAlive;
+	isAlive = false;
 	
 }
 
@@ -87,8 +90,9 @@ void PlayerGo::Release()
 }
 
 void PlayerGo::Reset()
-{
-	GameObject::Reset();
+{	
+	sfxChop.setBuffer(SOUNDBUFFER_MGR.Get(sbIdChop));
+
 	spritePlayer.setTexture(TEXTURE_MGR.Get(texIdPlayer));
 	spriteAxe.setTexture(TEXTURE_MGR.Get(texIdAxe));
 	spriteRip.setTexture(TEXTURE_MGR.Get(texIdRip));
@@ -109,6 +113,7 @@ void PlayerGo::Update(float dt)
 		isChopping = true;
 		SetSide(Sides::Left);
 		sceneGame->OnChop(Sides::Left);
+		sfxChop.play();
 	}
 	if (InputMgr::GetKeyUp(sf::Keyboard::Left))
 	{
@@ -119,6 +124,7 @@ void PlayerGo::Update(float dt)
 		isChopping = true;
 		SetSide(Sides::Right);
 		sceneGame->OnChop(Sides::Right);
+		sfxChop.play();
 	}
 	if (InputMgr::GetKeyUp(sf::Keyboard::Right))
 	{
