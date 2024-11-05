@@ -1,28 +1,22 @@
 #pragma once
+
 class SceneGame;
-class ItemGo;
-class PlayerGo : public GameObject
+class BulletGo : public GameObject
 {
 protected:
 	sf::Sprite body;
-	std::string playerTexId = "graphics/player.png";
+	std::string textureId = "graphics/bullet.png";
 
-	float speed = 500.f;
-	int maxHp = 100;
-	int hp = 0;
-	int countAmmo = 0;
-	int maxAmmo = 20;
 	sf::Vector2f direction;
-	sf::Vector2f look;
+	float speed = 0.f;
+	float damage = 0.f;
 
 	SceneGame* sceneGame;
 
-	float shootDelay = 0.5f;
-	float shootTimer = 0.f;
 	DebugBox debugBox;
 public:
-	PlayerGo(const std::string& name = "");
-	~PlayerGo() = default;
+	BulletGo(const std::string& name = "");
+	~BulletGo() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -41,7 +35,5 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void Shoot();
-	void OnDamage(int d);
-	void ObtainItem(ItemGo* item);
+	void Fire(const sf::Vector2f& pos, const sf::Vector2f& dir, float s, int d);
 };

@@ -1,28 +1,26 @@
 #pragma once
-class SceneGame;
-class ItemGo;
-class PlayerGo : public GameObject
+class PlayerGo;
+class ItemSpawnerGo;
+class ItemGo : public GameObject
 {
+public:
+	enum class Types
+	{
+		ammo,
+		health,
+	};
+
+	static const int itemTypes = 2;
 protected:
+	Types types = Types::ammo;
 	sf::Sprite body;
-	std::string playerTexId = "graphics/player.png";
-
-	float speed = 500.f;
-	int maxHp = 100;
-	int hp = 0;
-	int countAmmo = 0;
-	int maxAmmo = 20;
-	sf::Vector2f direction;
-	sf::Vector2f look;
-
-	SceneGame* sceneGame;
-
-	float shootDelay = 0.5f;
-	float shootTimer = 0.f;
+	std::string textureId;
+	PlayerGo* player;
+	ItemSpawnerGo* itemSpawner;
 	DebugBox debugBox;
 public:
-	PlayerGo(const std::string& name = "");
-	~PlayerGo() = default;
+	ItemGo(const std::string& name = "");
+	~ItemGo() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -41,7 +39,6 @@ public:
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void Shoot();
-	void OnDamage(int d);
-	void ObtainItem(ItemGo* item);
+	void SetType(Types type);
+	Types GetType() { return types; }
 };

@@ -2,6 +2,9 @@
 #include "SceneGame.h"
 #include "PlayerGo.h"
 #include "TileMap.h"
+#include "ZombieGo.h"
+#include "BulletGo.h"
+#include "ItemSpawnerGo.h"
 SceneGame::SceneGame()
 	: Scene(SceneIds::Game)
 {
@@ -12,6 +15,8 @@ void SceneGame::Init()
 	AddGo(new TileMap("Tile Map"));
 
 	player = AddGo(new PlayerGo("Player"));
+	itemSpawner = AddGo(new ItemSpawnerGo("Item Spawner"));
+
 	Scene::Init();
 }
 
@@ -22,15 +27,101 @@ void SceneGame::Release()
 
 void SceneGame::Enter()
 {
+	worldView.setSize(FRAMEWORK.GetWindowSizeF());
+	worldView.setCenter(0.f, 0.f);
+
+	// 타일맵의 경계를 가져옴
+	tileMapBound = FindGo("Tile Map")->GetLocalBounds();
+
+	// 타일맵의 경계 내에서 랜덤한 위치 설정
+	sf::Vector2f pos;
+	pos.x = Utils::RandomRange(tileMapBound.left, tileMapBound.left + tileMapBound.width);
+	pos.y = Utils::RandomRange(tileMapBound.top, tileMapBound.top + tileMapBound.height);
+
+	// 플레이어의 위치를 설정된 랜덤 위치로 이동
+	player->SetPosition(pos);
+
 	Scene::Enter();
 }
 
 void SceneGame::Exit()
 {
+	for (auto zombie : zombies)
+	{
+		RemoveGo(zombie);
+		zombiePool.Return(zombie);
+	}
+	zombies.clear();
+
+	for (auto bullet : bullets)
+	{
+		RemoveGo(bullet);
+		bulletPool.Return(bullet);
+	}
+	bullets.clear();
 	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
+	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+	{
+		SCENE_MGR.ChangeScene(SceneIds::Game);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
+	{
+		SpawnZombies(10);
+	}
+
+	if (player != nullptr)
+	{
+		worldView.setCenter(player->GetPosition());
+	}
 }
+
+void SceneGame::SpawnZombies(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		ZombieGo* zombie = zombiePool.Take();
+		zombies.push_back(zombie);
+
+		ZombieGo::Types zombieType = (ZombieGo::Types)Utils::RandomRange(0, ZombieGo::zombieTypes - 1);
+		zombie->SetType(zombieType);
+
+		// 타일맵 경계 내 랜덤 위치 설정
+		sf::Vector2f pos;
+		pos.x = Utils::RandomRange(tileMapBound.left, tileMapBound.left + tileMapBound.width);
+		pos.y = Utils::RandomRange(tileMapBound.top, tileMapBound.top + tileMapBound.height);
+
+		// 좀비 위치 설정
+		zombie->SetPosition(pos);
+		AddGo(zombie);
+	}
+}
+
+BulletGo* SceneGame::TakeBullet()
+{
+	BulletGo* bullet = bulletPool.Take();
+	bullets.push_back(bullet);
+	AddGo(bullet);
+
+	return bullet;
+}
+
+void SceneGame::ReturnBullet(BulletGo* bullet)
+{
+	RemoveGo(bullet);
+	bulletPool.Return(bullet);
+	bullets.remove(bullet);
+}
+
+void SceneGame::OnZombieDie(ZombieGo* zombie)
+{
+	RemoveGo(zombie);
+	zombiePool.Return(zombie);
+	zombies.remove(zombie);
+}
+

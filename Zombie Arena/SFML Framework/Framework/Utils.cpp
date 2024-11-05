@@ -135,7 +135,7 @@ void Utils::Normalize(sf::Vector2f& vec)
 sf::Vector2f Utils::GetNormal(const sf::Vector2f& vec)
 {
     float mag = Magnitude(vec);
-    if (mag != 0)
+    if (mag == 0)
         return vec;
     return vec / mag;
 }

@@ -43,12 +43,23 @@ public:
 		originPreset = Origins::Custom;
 	}
 
+	virtual sf::FloatRect GetLocalBounds() const 
+	{
+		return { 0.f, 0.f, 0.f, 0.f };
+	}
+	virtual sf::FloatRect GetGlobalBounds() const
+	{
+		return { 0.f, 0.f, 0.f, 0.f };
+	}
+
 	virtual void Init() = 0;
 	virtual void Release() = 0;
 
 	virtual void Reset() = 0;
 
 	virtual void Update(float dt) = 0;
+	virtual void LateUpdate(float dt) {}
+	virtual void FixedUpdate(float dt) {}
 	virtual void Draw(sf::RenderWindow& window) = 0;
 };
 

@@ -22,4 +22,5 @@
 #include "SceneMgr.h"
 #include "Scene.h"
 #include "ObjectPool.h"
+#include "DebugBox.h"
 

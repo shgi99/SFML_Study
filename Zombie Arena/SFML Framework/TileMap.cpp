@@ -10,19 +10,19 @@ TileMap::TileMap(const std::string& name)
 void TileMap::SetPosition(const sf::Vector2f& pos)
 {
 	position = pos;
-	transform.translate(position);
+	//UpdateTransform();
 }
 
 void TileMap::SetRotation(float angle)
 {
 	rotation = angle;
-	transform.rotate(rotation);
+	//UpdateTransform();
 }
 
 void TileMap::SetScale(const sf::Vector2f& s)
 {
 	scale = s;
-	transform.scale(scale);
+	//UpdateTransform();
 }
 
 void TileMap::SetOrigin(Origins preset)
@@ -30,13 +30,33 @@ void TileMap::SetOrigin(Origins preset)
 	originPreset = preset;
 	if (originPreset != Origins::Custom)
 	{
+		sf::FloatRect rect = GetGlobalBounds();
+		origin.x = rect.width * ((int)preset % 3) * 0.5f;
+		origin.y = rect.height * ((int)preset / 3) * 0.5f;
 	}
+	UpdateTransform();
 }
 
 void TileMap::SetOrigin(const sf::Vector2f& newOrigin)
 {
 	originPreset = Origins::Custom;
-	origin = newOrigin;
+	//UpdateTransform();
+}
+
+sf::FloatRect TileMap::GetLocalBounds() const
+{
+	return { 0.f, 0.f, cellCount.x * cellSize.x, cellCount.y * cellSize.y };
+}
+
+sf::FloatRect TileMap::GetGlobalBounds() const
+{
+	sf::FloatRect bounds = GetLocalBounds();
+	return transform.transformRect(bounds);
+}
+
+sf::Vector2f TileMap::GetCellSize() const
+{
+	return cellSize;
 }
 
 void TileMap::Init()
@@ -59,9 +79,7 @@ void TileMap::Reset()
 
 	SetOrigin(originPreset);
 	SetScale({ 1.0f, 1.0f });
-	SetPosition({ 0.f, windowSize.y * 0.5f });
-	SetRotation(-45.f);
-	
+	SetPosition({ 0.f, 0.f});
 }
 
 void TileMap::Update(float dt)
@@ -70,6 +88,8 @@ void TileMap::Update(float dt)
 
 void TileMap::Draw(sf::RenderWindow& window)
 {
+	UpdateTransform();
+
 	sf::RenderStates states;
 	states.texture = texture;
 	states.transform = transform;
@@ -131,4 +151,9 @@ void TileMap::Set(const sf::Vector2i& count, const sf::Vector2f& size)
 
 void TileMap::UpdateTransform()
 {
+	transform = sf::Transform::Identity;
+	transform.translate(position);
+	transform.rotate(rotation);
+	transform.scale(scale);
+	transform.translate(-origin);
 }

@@ -35,6 +35,7 @@ void Framework::Do()
         SCENE_MGR.Update(deltaTime);
         SCENE_MGR.LateUpdate(deltaTime);
 
+        SCENE_MGR.FixedUpdate(deltaTime);
         window.clear();
         SCENE_MGR.Draw(window);
         window.display();

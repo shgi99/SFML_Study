@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DebugBox.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\GameObject.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp" />
@@ -161,11 +162,16 @@
     </ClCompile>
     <ClCompile Include="Framework\TextGo.cpp" />
     <ClCompile Include="Framework\Utils.cpp" />
+    <ClCompile Include="ItemSpawnerGo.cpp" />
     <ClCompile Include="PlayerGo.cpp" />
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="ZombieGo.cpp" />
+    <ClCompile Include="BulletGo.cpp" />
+    <ClCompile Include="ItemGo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugBox.h" />
     <ClInclude Include="Framework\Defines.h" />
     <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Framework\GameObject.h" />
@@ -181,9 +187,13 @@
     <ClInclude Include="Framework\stdafx.h" />
     <ClInclude Include="Framework\TextGo.h" />
     <ClInclude Include="Framework\Utils.h" />
+    <ClInclude Include="ItemSpawnerGo.h" />
     <ClInclude Include="PlayerGo.h" />
     <ClInclude Include="SceneGame.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="ZombieGo.h" />
+    <ClInclude Include="BulletGo.h" />
+    <ClInclude Include="ItemGo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
