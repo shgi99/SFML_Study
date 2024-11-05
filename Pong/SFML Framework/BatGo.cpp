@@ -53,10 +53,16 @@ void BatGo::Reset()
 {
 	direction = sf::Vector2f(0.f, 0.f);
 	SetPosition(initPos);
+	isGameOver = false;
 }
 
 void BatGo::Update(float dt)
 {
+	if (isGameOver)
+	{
+		return;
+	}
+
 	direction.x = InputMgr::GetAxis(Axis::Horizontal);
 
 	auto newPos = position + direction * speed * dt;
@@ -66,5 +72,6 @@ void BatGo::Update(float dt)
 
 void BatGo::Draw(sf::RenderWindow& window)
 {
+	GameObject::Draw(window);
 	window.draw(body);
 }

@@ -12,6 +12,7 @@ protected:
 
 	float minX = 0.f;
 	float maxX = 0.f;
+	bool isGameOver = false;
 public:
 	BatGo(const std::string& name = "");
 	virtual ~BatGo() = default;
@@ -25,5 +26,7 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+	sf::FloatRect GetBatBounds() { return body.getGlobalBounds(); }
+	void SetGameover(bool isGameover) { this->isGameOver = isGameover; }
 };
 

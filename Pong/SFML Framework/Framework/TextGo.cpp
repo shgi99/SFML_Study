@@ -19,6 +19,11 @@ void TextGo::SetOrigin(const sf::Vector2f& newOrigin)
 	text.setOrigin(origin);
 }
 
+void TextGo::SetString(const std::string s)
+{
+	text.setString(s);
+}
+
 void TextGo::Reset()
 {
 	text.setFont(FONT_MGR.Get(fontId));

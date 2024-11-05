@@ -1,15 +1,19 @@
 #pragma once
 #include "GameObject.h"
+
 class BatGo;
 class BallGo : public GameObject
 {
 protected:
 	sf::CircleShape body;
-	BatGo* bat;
 	sf::Vector2f direction;
-	float speed = 500.f;
+	float speed = 0.f;
 
 	sf::FloatRect movableBounds;
+	BatGo* bat = nullptr;
+
+	int score = 0;
+	bool isGameOver = false;
 public:
     BallGo(const std::string& name = "");
     virtual ~BallGo() = default;
@@ -31,5 +35,17 @@ public:
 	}
 
 	void SetBat(BatGo* bat) { this->bat = bat; }
+	bool IsGameOver() const { return isGameOver; }
+	void SetGameOver(bool isGameOver)
+	{
+		this->isGameOver = isGameOver;
+	}
+	void SetScore(int score)
+	{
+		this->score = score;
+	}
+	int GetScore()
+	{
+		return score;
+	}
 };
-
