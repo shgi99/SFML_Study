@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ItemSpawnerGo.h"
 #include "ItemGo.h"
+#include "TileMap.h"
+#include "SceneGame.h"
 ItemSpawnerGo::ItemSpawnerGo(const std::string& name)
 	: GameObject(name)
 {
@@ -53,6 +55,7 @@ void ItemSpawnerGo::Release()
 
 void ItemSpawnerGo::Reset()
 {
+	tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Tile Map"));
 	for (auto item : items)
 	{
 		SCENE_MGR.GetCurrentScene()->RemoveGo(item);
@@ -76,9 +79,10 @@ void ItemSpawnerGo::Update(float dt)
 			if (newItem)
 			{
 				// 타일맵 범위 내 무작위 위치 설정
-				sf::FloatRect tileMapBounds = SCENE_MGR.GetCurrentScene()->FindGo("Tile Map")->GetLocalBounds();
-				float randomX = Utils::RandomRange(tileMapBounds.left, tileMapBounds.left + tileMapBounds.width);
-				float randomY = Utils::RandomRange(tileMapBounds.top, tileMapBounds.top + tileMapBounds.height);
+				sf::FloatRect tileMapBounds = tileMap->GetLocalBounds();
+				sf::Vector2f cellSize = tileMap->GetCellSize();
+				float randomX = Utils::RandomRange(tileMapBounds.left + cellSize.x, tileMapBounds.left + tileMapBounds.width - cellSize.x);
+				float randomY = Utils::RandomRange(tileMapBounds.top + cellSize.y, tileMapBounds.top + tileMapBounds.height - cellSize.y);
 
 				newItem->SetPosition({ randomX, randomY });
 				newItem->SetType((ItemGo::Types)Utils::RandomRange(0, ItemGo::itemTypes - 1)); // 타입 설정

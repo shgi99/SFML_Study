@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DebugBox.cpp" />
+    <ClCompile Include="Framework\DebugBox.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\GameObject.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp" />
@@ -162,16 +162,22 @@
     </ClCompile>
     <ClCompile Include="Framework\TextGo.cpp" />
     <ClCompile Include="Framework\Utils.cpp" />
+    <ClCompile Include="Framework\HitBox.cpp" />
     <ClCompile Include="ItemSpawnerGo.cpp" />
     <ClCompile Include="PlayerGo.cpp" />
     <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="Framework\SoundMgr.cpp" />
     <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="UiGameOver.cpp" />
+    <ClCompile Include="UiHud.cpp" />
+    <ClCompile Include="Framework\Variables.cpp" />
+    <ClCompile Include="UiUpgrade.cpp" />
     <ClCompile Include="ZombieGo.cpp" />
     <ClCompile Include="BulletGo.cpp" />
     <ClCompile Include="ItemGo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DebugBox.h" />
+    <ClInclude Include="Framework\DebugBox.h" />
     <ClInclude Include="Framework\Defines.h" />
     <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Framework\GameObject.h" />
@@ -187,10 +193,16 @@
     <ClInclude Include="Framework\stdafx.h" />
     <ClInclude Include="Framework\TextGo.h" />
     <ClInclude Include="Framework\Utils.h" />
+    <ClInclude Include="Framework\HitBox.h" />
     <ClInclude Include="ItemSpawnerGo.h" />
     <ClInclude Include="PlayerGo.h" />
     <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="Framework\SoundMgr.h" />
     <ClInclude Include="TileMap.h" />
+    <ClInclude Include="UiGameOver.h" />
+    <ClInclude Include="UiHud.h" />
+    <ClInclude Include="Framework\Variables.h" />
+    <ClInclude Include="UiUpgrade.h" />
     <ClInclude Include="ZombieGo.h" />
     <ClInclude Include="BulletGo.h" />
     <ClInclude Include="ItemGo.h" />

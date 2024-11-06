@@ -18,7 +18,17 @@ void SceneDev1::Init()
 
 void SceneDev1::Enter()
 {
+	rect1.setSize({ 200.f, 200.f });
+	rect1.setFillColor(sf::Color::Blue);
+	Utils::SetOrigin(rect1, Origins::MC);
+
+	rect2.setSize({ 100.f, 200.f });
+	rect2.setFillColor(sf::Color::Green);
+	Utils::SetOrigin(rect2, Origins::MC);
 	Scene::Enter();
+
+	worldView.setCenter(0.f, 0.f);
+	worldView.setSize(FRAMEWORK.GetWindowSizeF());
 }
 
 void SceneDev1::Exit()
@@ -29,6 +39,33 @@ void SceneDev1::Exit()
 void SceneDev1::Update(float dt)
 { 
 	Scene::Update(dt);
+	rect2.rotate(100.f * dt);
+	sf::Vector2f mousePos = ScreenToWorld(InputMgr::GetMousePosition());
+	if (InputMgr::GetMouseButton(sf::Mouse::Left))
+	{
+		rect1.setPosition(mousePos);
+	}
+
+	if (Utils::CheckCollision(rect1, rect2))
+	{
+		rect1.setFillColor(sf::Color::Red);
+	}
+	else
+	{
+		rect1.setFillColor(sf::Color::Blue);
+	}
+
+	if (InputMgr::GetMouseButton(sf::Mouse::Right))
+	{
+		if (Utils::PointInTransformBounds(rect1, rect1.getLocalBounds(), mousePos))
+		{
+			rect1.setFillColor(sf::Color::Red);
+		}
+		else
+		{
+			rect1.setFillColor(sf::Color::Blue);
+		}
+	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	{
@@ -39,4 +76,6 @@ void SceneDev1::Update(float dt)
 void SceneDev1::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+	window.draw(rect1);
+	window.draw(rect2);
 }

@@ -9,6 +9,7 @@ public:
 		Bloater,
 		Chaser,
 		Crawler,
+		Death,
 	};
 
 	static const int zombieTypes = 3;
@@ -26,9 +27,11 @@ protected:
 	int hp = 0;
 	float attackTimer = 0.f;
 
+	bool isDie = false;
+	float eraseTimer = 0.f;
+
 	PlayerGo* player;
 	SceneGame* sceneGame;
-	DebugBox debugBox;
 public:
 	ZombieGo(const std::string& name = "");
 	~ZombieGo() = default;
@@ -50,6 +53,8 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void SetType(Types type);
+
+	float GetEraseTimer() const { return eraseTimer; }
 
 	void OnDamage(int damage);
 };

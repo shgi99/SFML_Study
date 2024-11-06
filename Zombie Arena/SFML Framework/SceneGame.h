@@ -4,6 +4,10 @@ class PlayerGo;
 class ZombieGo;
 class BulletGo;
 class ItemSpawnerGo;
+class UiHud;
+class UiUpgrade;
+class UiGameOver;
+enum class Upgrade;
 class SceneGame : public Scene
 {
 protected:
@@ -17,6 +21,13 @@ protected:
 	std::list<BulletGo*> bullets;
 	ObjectPool<BulletGo> bulletPool;
 
+	UiHud* uiHud;
+	UiUpgrade* uiUpgrade;
+	UiGameOver* uiGameOver;
+
+	sf::Sprite cursor;
+
+	bool isGameOver = false;
 
 public:
 	SceneGame();
@@ -26,7 +37,7 @@ public:
 	void Release() override;
 	void Enter() override;
 	void Exit() override;
-
+	void Draw(sf::RenderWindow& window) override;
 	void Update(float dt) override;
 
 	void SpawnZombies(int count);
@@ -37,5 +48,8 @@ public:
 	const std::list<ZombieGo*>& GetZombieList() const { return zombies; }
 
 	void OnZombieDie(ZombieGo* zombie);
+	void OnUpgrade(Upgrade up);
+
+	void SetUiHud();
 };
 

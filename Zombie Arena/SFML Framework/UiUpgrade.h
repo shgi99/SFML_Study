@@ -1,20 +1,23 @@
 #pragma once
-class ItemGo;
-class TileMap;
-class SceneGame;
-class ItemSpawnerGo : public GameObject
+enum class Upgrade
+{
+	RateOfFire,
+	ClipSize,
+	MaxHealth,
+	RunSpeed,
+	HealthPickups,
+	AmmoPickups,
+	Count,
+};
+
+class UiUpgrade : public GameObject
 {
 protected:
-	std::list<ItemGo*> items;
-	ObjectPool<ItemGo> itemPool;
-	TileMap* tileMap;
-	SceneGame* sceneGame;
-	float spawnInterval = 5.f;
-	float spawnTimer = 0.f;
-	int maxItem = 10;
+	sf::Sprite backGroundSprite;
+	sf::Text text[6];
 public:
-	ItemSpawnerGo(const std::string& name = "");
-	~ItemSpawnerGo() = default;
+	UiUpgrade(const std::string& name = "");
+	~UiUpgrade() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -27,6 +30,6 @@ public:
 	void Release() override;
 	void Reset() override;
 	void Update(float dt) override;
+	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-	void RemoveItem(ItemGo* item);
 };

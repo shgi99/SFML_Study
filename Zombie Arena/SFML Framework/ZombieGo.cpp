@@ -60,6 +60,7 @@ void ZombieGo::Reset()
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
 	body.setTexture(TEXTURE_MGR.Get(textureId));
 	damage = 20;
+	isDie = false;
 	SetOrigin(Origins::MC);
 	SetPosition({ 0.f, 0.f });
 	SetRotation(0.f);
@@ -69,7 +70,16 @@ void ZombieGo::Reset()
 void ZombieGo::Update(float dt)
 {
 	attackTimer += dt;
-	if (player != nullptr && Utils::Distance(position, player->GetPosition()) > 20.f)
+	if (isDie)
+	{
+		eraseTimer += dt;
+		if (eraseTimer >= 3.0f) // 3초 후 삭제
+		{
+			sceneGame->OnZombieDie(this); // 좀비 삭제
+		}
+	}
+
+	if (player != nullptr && Utils::Distance(position, player->GetPosition()) > 20.f && !isDie)
 	{
 		direction = Utils::GetNormal(player->GetPosition() - position);
 		SetRotation(Utils::Angle(direction));
@@ -98,20 +108,23 @@ void ZombieGo::Update(float dt)
 			position.y = movableBound.top + cellSize.y;
 		}
 	}
+	hitBox.UpdateTr(body, GetLocalBounds());
 }
 void ZombieGo::FixedUpdate(float dt)
 {
-	debugBox.SetOutlineColor(sf::Color::Green);
-	debugBox.SetBounds(GetGlobalBounds());
+	attackTimer += dt;
 
 	sf::FloatRect bounds = GetGlobalBounds();
 	sf::FloatRect playerBounds = player->GetGlobalBounds();
 
-	if (bounds.intersects(playerBounds) && attackTimer >= attackInterval)
+	if (bounds.intersects(playerBounds) && Utils::CheckCollision(GetHitBox(), player->GetHitBox()) && attackTimer >= attackInterval)
 	{
-		attackTimer = 0.f;
-		debugBox.SetOutlineColor(sf::Color::Red);
-		player->OnDamage(damage);
+		HitBox& boxPlayer = player->GetHitBox();
+		if(Utils::CheckCollision(hitBox, boxPlayer) && attackTimer >= attackInterval)
+		{
+			attackTimer = 0.f;
+			player->OnDamage(damage);
+		}
 	}
 }
 sf::FloatRect ZombieGo::GetLocalBounds() const
@@ -126,7 +139,7 @@ sf::FloatRect ZombieGo::GetGlobalBounds() const
 void ZombieGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
-	debugBox.Draw(window);
+	hitBox.Draw(window);
 }
 
 void ZombieGo::SetType(Types type)
@@ -149,6 +162,11 @@ void ZombieGo::SetType(Types type)
 		maxHp = 10;
 		speed = 50.f;
 		break;
+	case Types::Death:
+		textureId = "graphics/blood.png";
+		maxHp = 0;
+		speed = 0.f;
+		break;
 	}
 
 	body.setTexture(TEXTURE_MGR.Get(textureId), true); // true를 넣어줘야 다른 크기여도 알맞게 생성됨
@@ -161,6 +179,7 @@ void ZombieGo::OnDamage(int d)
 	hp -= d;
 	if (hp <= 0 && sceneGame != nullptr)
 	{
-		sceneGame->OnZombieDie(this);
+		SetType(Types::Death);
+		isDie = true;
 	}
 }

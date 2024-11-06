@@ -5,6 +5,9 @@
 #include "ZombieGo.h"
 #include "BulletGo.h"
 #include "ItemSpawnerGo.h"
+#include "UiHud.h"
+#include "UiUpgrade.h"
+#include "UiGameOver.h"
 SceneGame::SceneGame()
 	: Scene(SceneIds::Game)
 {
@@ -16,6 +19,9 @@ void SceneGame::Init()
 
 	player = AddGo(new PlayerGo("Player"));
 	itemSpawner = AddGo(new ItemSpawnerGo("Item Spawner"));
+	uiHud = AddGo(new UiHud("UI Hud"));
+	uiUpgrade = AddGo(new UiUpgrade("UI Upgrade"));
+	uiGameOver = AddGo(new UiGameOver("UI Game Over"));
 
 	Scene::Init();
 }
@@ -27,9 +33,15 @@ void SceneGame::Release()
 
 void SceneGame::Enter()
 {
-	worldView.setSize(FRAMEWORK.GetWindowSizeF());
+	FRAMEWORK.GetWindow().setMouseCursorVisible(false);
+	sf::Vector2f size = FRAMEWORK.GetWindowSizeF();
+	cursor.setTexture(TEXTURE_MGR.Get("graphics/crosshair.png"));
+	Utils::SetOrigin(cursor, Origins::MC);
+	worldView.setSize(size);
 	worldView.setCenter(0.f, 0.f);
 
+	uiView.setSize(size);
+	uiView.setCenter(size.x * 0.5f, size.y * 0.5f);
 	// Å¸ÀÏ¸ÊÀÇ °æ°è¸¦ °¡Á®¿È
 	tileMapBound = FindGo("Tile Map")->GetLocalBounds();
 
@@ -42,6 +54,7 @@ void SceneGame::Enter()
 	player->SetPosition(pos);
 
 	Scene::Enter();
+	SetUiHud();
 }
 
 void SceneGame::Exit()
@@ -62,17 +75,38 @@ void SceneGame::Exit()
 	Scene::Exit();
 }
 
+void SceneGame::Draw(sf::RenderWindow& window)
+{
+	Scene::Draw(window);
+	const sf::View& saveView = window.getView();
+	window.setView(uiView);
+	window.draw(cursor);
+	window.setView(saveView);
+}
+
 void SceneGame::Update(float dt)
 {
+	sf::Vector2f mousePos = ScreenToUi(InputMgr::GetMousePosition());
+	cursor.setPosition(mousePos);
+
 	Scene::Update(dt);
 	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
 
+	if (InputMgr::GetKeyDown(sf::Keyboard::BackSpace))
+	{
+		uiUpgrade->SetActive(!uiUpgrade->IsActive());
+	}
+
 	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
 	{
 		SpawnZombies(10);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+	{
+		uiGameOver->SetActive(!uiGameOver->IsActive());
 	}
 
 	if (player != nullptr)
@@ -123,5 +157,16 @@ void SceneGame::OnZombieDie(ZombieGo* zombie)
 	RemoveGo(zombie);
 	zombiePool.Return(zombie);
 	zombies.remove(zombie);
+}
+
+void SceneGame::OnUpgrade(Upgrade up)
+{
+	uiUpgrade->SetActive(false);
+	std::cout << (int) up;
+}
+
+void SceneGame::SetUiHud()
+{
+	uiHud->SetAmmo(player->GetCurrentAmmo(), player->GetMaxAmmo());
 }
 

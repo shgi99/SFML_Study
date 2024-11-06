@@ -79,7 +79,7 @@ void BulletGo::Reset()
 void BulletGo::Update(float dt)
 {
 	SetPosition(position + direction * speed * dt);
-	debugBox.SetBounds(GetGlobalBounds());
+	hitBox.UpdateTr(body, GetLocalBounds());
 }
 
 void BulletGo::FixedUpdate(float dt)
@@ -88,7 +88,6 @@ void BulletGo::FixedUpdate(float dt)
 	{
 		return;
 	}
-	debugBox.SetOutlineColor(sf::Color::Green);
 	const auto& list = sceneGame->GetZombieList();
 	for (auto zombie : list)
 	{
@@ -100,9 +99,12 @@ void BulletGo::FixedUpdate(float dt)
 		sf::FloatRect zombieBounds = zombie->GetGlobalBounds();
 		if (bounds.intersects(zombieBounds))
 		{
-			debugBox.SetOutlineColor(sf::Color::Red);
-			zombie->OnDamage(damage);
-			sceneGame->ReturnBullet(this);
+			HitBox& boxZombie = zombie->GetHitBox();
+			if (Utils::CheckCollision(hitBox, boxZombie))
+			{
+				zombie->OnDamage(damage);
+				sceneGame->ReturnBullet(this);
+			}
 			break;
 		}
 	}
@@ -111,7 +113,7 @@ void BulletGo::FixedUpdate(float dt)
 void BulletGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
-	debugBox.Draw(window);
+	hitBox.Draw(window);
 }
 
 void BulletGo::Fire(const sf::Vector2f& pos, const sf::Vector2f& dir, float s, int d)

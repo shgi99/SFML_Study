@@ -1,20 +1,12 @@
 #pragma once
-class ItemGo;
-class TileMap;
-class SceneGame;
-class ItemSpawnerGo : public GameObject
+
+class UiGameOver : public GameObject
 {
 protected:
-	std::list<ItemGo*> items;
-	ObjectPool<ItemGo> itemPool;
-	TileMap* tileMap;
-	SceneGame* sceneGame;
-	float spawnInterval = 5.f;
-	float spawnTimer = 0.f;
-	int maxItem = 10;
+	sf::Text text;
 public:
-	ItemSpawnerGo(const std::string& name = "");
-	~ItemSpawnerGo() = default;
+	UiGameOver(const std::string& name = "");
+	~UiGameOver() = default;
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void SetRotation(float angle) override;
@@ -28,5 +20,4 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-	void RemoveItem(ItemGo* item);
 };

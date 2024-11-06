@@ -72,7 +72,25 @@
     <ClCompile Include="ItemSpawnerGo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="DebugBox.cpp">
+    <ClCompile Include="Framework\DebugBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\HitBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UiHud.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Variables.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UiUpgrade.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UiGameOver.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\SoundMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +161,25 @@
     <ClInclude Include="ItemSpawnerGo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DebugBox.h">
+    <ClInclude Include="Framework\DebugBox.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\HitBox.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UiHud.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Variables.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UiUpgrade.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UiGameOver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\SoundMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

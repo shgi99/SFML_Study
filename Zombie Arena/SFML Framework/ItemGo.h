@@ -17,7 +17,6 @@ protected:
 	std::string textureId;
 	PlayerGo* player;
 	ItemSpawnerGo* itemSpawner;
-	DebugBox debugBox;
 public:
 	ItemGo(const std::string& name = "");
 	~ItemGo() = default;

@@ -12,8 +12,6 @@ protected:
 	float damage = 0.f;
 
 	SceneGame* sceneGame;
-
-	DebugBox debugBox;
 public:
 	BulletGo(const std::string& name = "");
 	~BulletGo() = default;

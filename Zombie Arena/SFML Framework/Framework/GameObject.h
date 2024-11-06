@@ -1,5 +1,7 @@
 #pragma once
+#include <HitBox.h>
 
+class HitBox;
 class GameObject
 {
 protected:
@@ -13,6 +15,8 @@ protected:
 
 	Origins originPreset;
 	sf::Vector2f origin;
+
+	HitBox hitBox;
 
 public:
 	SortingLayers sortingLayer = SortingLayers::Default;
@@ -35,6 +39,8 @@ public:
 	sf::Vector2f GetScale() const { return scale; }
 	virtual void SetScale(const sf::Vector2f& scale) { this->scale = scale; }
 
+	virtual const HitBox& GetHitBox() const;
+	virtual HitBox& GetHitBox();
 	sf::Vector2f GetOrigin() const { return origin; }
 	virtual void SetOrigin(Origins preset);
 	virtual void SetOrigin(const sf::Vector2f& newOrigin)

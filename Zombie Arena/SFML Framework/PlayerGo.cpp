@@ -68,12 +68,14 @@ void PlayerGo::Release()
 void PlayerGo::Reset()
 {
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
-	
+	tileMap = dynamic_cast<TileMap*>(sceneGame->FindGo("Tile Map"));
 	body.setTexture(TEXTURE_MGR.Get(playerTexId));
 	SetOrigin(originPreset);
 	SetRotation(0.f);
 	direction = { 1.f, 0.f };
 	countAmmo = 10;
+	currentAmmo = 10;
+	maxAmmo = 30;
 	hp = maxHp;
 	shootTimer = shootDelay;
 }
@@ -106,7 +108,23 @@ void PlayerGo::Update(float dt)
 		shootTimer = 0.f;
 		Shoot();
 	}
-	TileMap* tileMap = dynamic_cast<TileMap*>(sceneGame->FindGo("Tile Map"));
+	if (InputMgr::GetKeyDown(sf::Keyboard::R))
+	{
+		Reloading();
+	}
+	if (isReloading)
+	{
+		reloadTimer += dt;
+		if (reloadTimer >= reloadTime)  // 재장전이 완료되면
+		{
+			int ammoNeeded = countAmmo - currentAmmo;   // 한 탄창에 채워야 할 탄약 수
+			int ammoToReload = std::min(ammoNeeded, maxAmmo);  // 소지 탄약에서 채울 수 있는 만큼
+			currentAmmo += ammoToReload;
+			maxAmmo -= ammoToReload;
+			isReloading = false;
+			sceneGame->SetUiHud();  // UI 업데이트
+		}
+	}
 	if (tileMap != nullptr)
 	{
 		sf::FloatRect movableBound = tileMap->GetLocalBounds();
@@ -128,8 +146,7 @@ void PlayerGo::Update(float dt)
 			position.y = movableBound.top + cellSize.y;
 		}
 	}
-	debugBox.SetBounds(GetGlobalBounds());
-	debugBox.SetOutlineColor(sf::Color::Green);
+	hitBox.UpdateTr(body, GetLocalBounds());
 }
 
 void PlayerGo::FixedUpdate(float dt)
@@ -139,16 +156,17 @@ void PlayerGo::FixedUpdate(float dt)
 void PlayerGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
-	debugBox.Draw(window);
+	hitBox.Draw(window);
 }
 
 void PlayerGo::Shoot()
 {
-	if(countAmmo > 0)
+	if(currentAmmo > 0 && !isReloading)
 	{
 		BulletGo* bullet = sceneGame->TakeBullet();
 		bullet->Fire(position, look, 800.f, 10);
-		countAmmo--;
+		currentAmmo--;
+		sceneGame->SetUiHud();
 	}
 }
 
@@ -164,12 +182,8 @@ void PlayerGo::ObtainItem(ItemGo* item)
 	switch (itemType)
 	{
 	case 0:
-		countAmmo += 10;
-		if (countAmmo > maxAmmo)
-		{
-			countAmmo = maxAmmo;
-		}
-		std::cout << "Get Ammo Item " << countAmmo << " Remains." << std::endl;
+		maxAmmo += 15;
+		sceneGame->SetUiHud();
 		break;
 	case 1:
 		hp += 30;
@@ -177,8 +191,16 @@ void PlayerGo::ObtainItem(ItemGo* item)
 		{
 			hp = maxHp;
 		}
-		std::cout << "Get Health Item " << hp << " Remains." << std::endl;
 		break;
+	}
+}
+
+void PlayerGo::Reloading()
+{
+	if (currentAmmo < countAmmo && maxAmmo > 0 && !isReloading)
+	{
+		isReloading = true;
+		reloadTimer = 0.f;  // 재장전 시작시 타이머 리셋
 	}
 }
 

@@ -77,25 +77,26 @@ void ItemGo::Reset()
 void ItemGo::Update(float dt)
 {
 	SetRotation(rotation + 0.1f); // 회전 효과
-
+	hitBox.UpdateTr(body, GetLocalBounds());
 }
 
 
 
 void ItemGo::FixedUpdate(float dt)
 {
-	debugBox.SetOutlineColor(sf::Color::Green);
-	debugBox.SetBounds(GetGlobalBounds());
 
 	if (IsActive() && player != nullptr)  // 아이템이 활성 상태일 때만 체크
 	{
+		sf::FloatRect bounds = GetGlobalBounds();
 		sf::FloatRect playerBounds = player->GetGlobalBounds();
-		sf::FloatRect itemBounds = GetGlobalBounds();
-
-		if (itemBounds.intersects(playerBounds))
+		if (bounds.intersects(playerBounds))
 		{
-			player->ObtainItem(this);  // 아이템 획득 로직 실행
-			itemSpawner->RemoveItem(this);
+			HitBox& boxPlayer = player->GetHitBox();
+			if(Utils::CheckCollision(hitBox, boxPlayer))
+			{
+				player->ObtainItem(this);  // 아이템 획득 로직 실행
+				itemSpawner->RemoveItem(this);
+			}
 		}
 	}
 }
@@ -103,7 +104,7 @@ void ItemGo::FixedUpdate(float dt)
 void ItemGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
-	debugBox.Draw(window);
+	hitBox.Draw(window);
 }
 
 void ItemGo::SetType(Types type)

@@ -7,6 +7,16 @@ GameObject::GameObject(const std::string& name)
 
 }
 
+const HitBox& GameObject::GetHitBox() const
+{
+	return hitBox;
+}
+
+HitBox& GameObject::GetHitBox()
+{
+	return hitBox;
+}
+
 void GameObject::SetOrigin(Origins preset)
 {
 	originPreset = preset;

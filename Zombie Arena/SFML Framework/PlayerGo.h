@@ -1,6 +1,7 @@
 #pragma once
 class SceneGame;
 class ItemGo;
+class TileMap;
 class PlayerGo : public GameObject
 {
 protected:
@@ -10,16 +11,21 @@ protected:
 	float speed = 500.f;
 	int maxHp = 100;
 	int hp = 0;
-	int countAmmo = 0;
-	int maxAmmo = 20;
+
+	int currentAmmo = 10;
+	int countAmmo = 10;
+	int maxAmmo = 30;
 	sf::Vector2f direction;
 	sf::Vector2f look;
 
 	SceneGame* sceneGame;
-
+	TileMap* tileMap;
 	float shootDelay = 0.5f;
 	float shootTimer = 0.f;
-	DebugBox debugBox;
+	float reloadTime = 2.f;
+	float reloadTimer = 0.f;
+
+	bool isReloading = false;
 public:
 	PlayerGo(const std::string& name = "");
 	~PlayerGo() = default;
@@ -33,6 +39,7 @@ public:
 
 	sf::FloatRect GetLocalBounds() const;
 	sf::FloatRect GetGlobalBounds() const;
+	sf::Sprite GetSprite() const { return body; }
 
 	void Init() override;
 	void Release() override;
@@ -44,4 +51,10 @@ public:
 	void Shoot();
 	void OnDamage(int d);
 	void ObtainItem(ItemGo* item);
+	void Reloading();
+
+	int GetCurrentAmmo() const { return currentAmmo; }
+	int GetMaxAmmo() const { return maxAmmo; };
+	int GetHp() const { return hp; };
+	int GetMaxHp() const { return maxHp; };
 };
