@@ -61,6 +61,7 @@ void ZombieGo::Reset()
 	body.setTexture(TEXTURE_MGR.Get(textureId));
 	damage = 20;
 	isDie = false;
+	eraseTimer = 0.f;
 	SetOrigin(Origins::MC);
 	SetPosition({ 0.f, 0.f });
 	SetRotation(0.f);
@@ -164,6 +165,7 @@ void ZombieGo::SetType(Types type)
 		break;
 	case Types::Death:
 		textureId = "graphics/blood.png";
+		damage = 0;
 		maxHp = 0;
 		speed = 0.f;
 		break;

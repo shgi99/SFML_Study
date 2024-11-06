@@ -100,7 +100,7 @@ void BulletGo::FixedUpdate(float dt)
 		if (bounds.intersects(zombieBounds))
 		{
 			HitBox& boxZombie = zombie->GetHitBox();
-			if (Utils::CheckCollision(hitBox, boxZombie))
+			if (Utils::CheckCollision(hitBox, boxZombie) && zombie->GetType() != ZombieGo::Types::Death)
 			{
 				zombie->OnDamage(damage);
 				sceneGame->ReturnBullet(this);

@@ -53,7 +53,7 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void SetType(Types type);
-
+	Types GetType() const { return types; }
 	float GetEraseTimer() const { return eraseTimer; }
 
 	void OnDamage(int damage);
