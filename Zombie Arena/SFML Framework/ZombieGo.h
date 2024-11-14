@@ -51,9 +51,18 @@ public:
 	sf::FloatRect GetLocalBounds() const;
 	sf::FloatRect GetGlobalBounds() const;
 	void Draw(sf::RenderWindow& window) override;
-
+	
 	void SetType(Types type);
 	Types GetType() const { return types; }
+	void SetHp(int hp) { this->hp = hp; }
+	int GetHp() const { return hp; }
+	void SetMaxHp(int maxHp) { this->maxHp = maxHp; }
+	int GetMaxHp() const { return maxHp; }
+	void SetSpeed(float speed) { this->speed = speed; }
+	float GetSpeed() const { return speed; }
+	void SetDamage(int damage) { this->damage = damage; }
+	int GetDamage() const { return damage; }
+
 	float GetEraseTimer() const { return eraseTimer; }
 
 	void OnDamage(int damage);

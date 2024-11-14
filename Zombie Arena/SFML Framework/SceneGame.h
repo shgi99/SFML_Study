@@ -28,7 +28,8 @@ protected:
 	sf::Sprite cursor;
 
 	bool isGameOver = false;
-
+	float setWaveTimer = 0.f;
+	int wave = 0;
 public:
 	SceneGame();
 	virtual ~SceneGame() = default;
@@ -49,6 +50,7 @@ public:
 
 	void OnZombieDie(ZombieGo* zombie);
 	void OnUpgrade(Upgrade up);
+	void SetNewWave(int wave);
 
 	void SetUiHud();
 };

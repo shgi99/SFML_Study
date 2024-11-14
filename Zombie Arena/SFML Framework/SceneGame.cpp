@@ -39,7 +39,8 @@ void SceneGame::Enter()
 	Utils::SetOrigin(cursor, Origins::MC);
 	worldView.setSize(size);
 	worldView.setCenter(0.f, 0.f);
-
+	wave = 0;
+	setWaveTimer = 0.f;
 	uiView.setSize(size);
 	uiView.setCenter(size.x * 0.5f, size.y * 0.5f);
 	// Å¸ÀÏ¸ÊÀÇ °æ°è¸¦ °¡Á®¿È
@@ -100,10 +101,11 @@ void SceneGame::Update(float dt)
 		uiUpgrade->SetActive(!uiUpgrade->IsActive());
 	}
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
-	{
-		SpawnZombies(10);
-	}
+	//if (InputMgr::GetKeyDown(sf::Keyboard::Space))
+	//{
+	//	SpawnZombies(10);
+	//}
+
 	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 	{
 		uiGameOver->SetActive(!uiGameOver->IsActive());
@@ -112,6 +114,18 @@ void SceneGame::Update(float dt)
 	if (player != nullptr)
 	{
 		worldView.setCenter(player->GetPosition());
+	}
+
+	if (zombies.size() == 0)
+	{
+		setWaveTimer += dt;
+		if (setWaveTimer >= 3.f)
+		{
+			wave++;
+			SetNewWave(wave);
+			SetUiHud();
+			setWaveTimer = 0.f;
+		}
 	}
 }
 
@@ -165,8 +179,21 @@ void SceneGame::OnUpgrade(Upgrade up)
 	std::cout << (int) up;
 }
 
+void SceneGame::SetNewWave(int wave)
+{
+	SpawnZombies(10 * wave);
+	for (auto zombie : zombies)
+	{
+		zombie->SetMaxHp(zombie->GetMaxHp() + ((wave - 1) * 10));
+		zombie->SetHp(zombie->GetMaxHp());
+		zombie->SetDamage(zombie->GetDamage() + ((wave - 1) * 5));
+		zombie->SetSpeed(zombie->GetSpeed() + ((wave - 1) * 10.f));
+	}
+}
+
 void SceneGame::SetUiHud()
 {
 	uiHud->SetAmmo(player->GetCurrentAmmo(), player->GetMaxAmmo());
+	uiHud->SetWave(wave);
 }
 
